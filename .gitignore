@@ -1,0 +1,23 @@
+# Hugo
+public/
+resources/
+.hugo_build.lock
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary files
+*.log
+*.tmp
+
+CHECKLIST.md
+DEPLOYMENT.md
+README.md

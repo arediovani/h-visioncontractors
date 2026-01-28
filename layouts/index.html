@@ -1,0 +1,68 @@
+{{ define "main" }}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Quality Renovations You Can Trust</h1>
+        <p>Professional construction and renovation services across the UK with over 15 years of experience</p>
+        <a href="tel:{{ .Site.Params.phone }}" class="cta-button">Call Us Today</a>
+    </div>
+</section>
+
+<!-- Projects Carousel Section -->
+<section class="projects-carousel">
+    <div class="container">
+        <h2 class="section-title">Our Recent Projects</h2>
+        <div class="carousel-container">
+            <div class="carousel-track">
+                {{ range first 6 (where .Site.RegularPages "Section" "projects") }}
+                <div class="project-card">
+                    {{ with .Params.images }}
+                    <img src="{{ index . 0 }}" alt="{{ $.Title }}">
+                    {{ else }}
+                    <img src="/images/placeholder.jpg" alt="{{ .Title }}">
+                    {{ end }}
+                    <div class="project-card-content">
+                        <h3>{{ .Title }}</h3>
+                        <p>{{ .Summary | truncate 120 }}</p>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn carousel-prev">←</button>
+                <button class="carousel-btn carousel-next">→</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Form Section -->
+<section class="contact-section">
+    <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <div class="contact-form">
+            <form action="#" method="POST">
+                <div class="form-group">
+                    <label for="name">Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message *</label>
+                    <textarea id="message" name="message" required></textarea>
+                </div>
+                <button type="submit" class="cta-button">Send Message</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+{{ end }}

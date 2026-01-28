@@ -1,0 +1,43 @@
+{{ define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end }}
+
+{{ define "main" }}
+<div class="container">
+    <div class="project-detail">
+        <div class="project-header">
+            <h1>{{ .Title }}</h1>
+            <div class="project-meta">
+                <span>Completed: {{ .Date.Format "January 2006" }}</span>
+                {{ with .Params.location }}
+                <span> | Location: {{ . }}</span>
+                {{ end }}
+                {{ with .Params.duration }}
+                <span> | Duration: {{ . }}</span>
+                {{ end }}
+            </div>
+        </div>
+        
+        {{ with .Params.images }}
+        <div class="project-gallery">
+            <div class="gallery-main">
+                <img src="{{ index . 0 }}" alt="{{ $.Title }} - Main Image">
+            </div>
+            {{ if gt (len .) 1 }}
+            <div class="gallery-thumbs">
+                {{ range . }}
+                <img src="{{ . }}" alt="{{ $.Title }}">
+                {{ end }}
+            </div>
+            {{ end }}
+        </div>
+        {{ end }}
+        
+        <div class="project-description">
+            {{ .Content }}
+        </div>
+        
+        <div style="margin-top: 3rem; text-align: center;">
+            <a href="/projects/" class="project-link">← Back to Projects</a>
+        </div>
+    </div>
+</div>
+{{ end }}

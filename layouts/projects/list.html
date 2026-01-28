@@ -1,0 +1,25 @@
+{{ define "title" }}Projects - {{ .Site.Title }}{{ end }}
+
+{{ define "main" }}
+<div class="container">
+    <h1 class="section-title">Our Projects</h1>
+    
+    <div class="projects-grid">
+        {{ range .Pages }}
+        <div class="project-item">
+            {{ with .Params.images }}
+            <img src="{{ index . 0 }}" alt="{{ $.Title }}">
+            {{ else }}
+            <img src="/images/placeholder.jpg" alt="{{ .Title }}">
+            {{ end }}
+            <div class="project-item-content">
+                <h3>{{ .Title }}</h3>
+                <span class="date">{{ .Date.Format "January 2006" }}</span>
+                <p>{{ .Summary }}</p>
+                <a href="{{ .Permalink }}" class="project-link">View Project →</a>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

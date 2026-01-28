@@ -1,0 +1,24 @@
+baseURL = 'https://h-visioncontractors.co.uk/'
+languageCode = 'en-GB'
+title = 'H-VISION'
+
+[params]
+  description = 'where precision meets creativity to bring your vision to life'
+  phone = '+44 7309 679437'
+  email = 'info@vaniconstruction.co.uk'
+  address = 'West Hampstead, NW6 1RB, Camden, London, Greater London, England, United Kingdom'
+  businessHours = 'Monday - Friday: 8:00 AM - 9:00 PM'
+  
+[menu]
+  [[menu.main]]
+    name = 'Home'
+    url = '/'
+    weight = 1
+  [[menu.main]]
+    name = 'Projects'
+    url = '/projects/'
+    weight = 2
+  [[menu.main]]
+    name = 'Contact'
+    url = '/contact/'
+    weight = 3

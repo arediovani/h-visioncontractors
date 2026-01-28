@@ -1,0 +1,10 @@
+<header>
+    <nav>
+        <a href="{{ "/" | relURL }}" class="logo">H-<span>Vision</span></a>
+        <ul>
+            {{ range .Site.Menus.main }}
+            <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+            {{ end }}
+        </ul>
+    </nav>
+</header>
