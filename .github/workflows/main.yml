@@ -31,7 +31,7 @@ jobs:
             
             # 4. Copy public folder to web server root
             # Using cp -r to ensure all subdirectories move
-            sudo cp -r public/. /var/www/h-visioncontractors.co.uk/
+            sudo cp -r public/. /var/www/h-visioncontractors.co.uk/public/
             
             # Optional: Clean up the public folder after copy
             rm -rf public/
