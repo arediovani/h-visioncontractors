@@ -52,10 +52,58 @@ nav {
   color: var(--secondary-color);
 }
 
-nav ul {
+nav .nav-menu {
   display: flex;
   list-style: none;
   gap: 2rem;
+  align-items: center;
+}
+
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger,
+.hamburger::before,
+.hamburger::after {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--text-color);
+  position: relative;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  position: absolute;
+  left: 0;
+}
+
+.hamburger::before { top: -7px; }
+.hamburger::after { top: 7px; }
+
+.nav-toggle[aria-expanded="true"] .hamburger {
+  background: transparent;
+}
+.nav-toggle[aria-expanded="true"] .hamburger::before {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .hamburger::after {
+  transform: translateY(-7px) rotate(-45deg);
+}
+.nav-toggle[aria-expanded="true"] .hamburger::before,
+.nav-toggle[aria-expanded="true"] .hamburger::after {
+  background: var(--accent-color);
 }
 
 nav a {
@@ -67,6 +115,50 @@ nav a {
 
 nav a:hover {
   color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+  .nav-toggle { display: flex; margin-left: auto; background: none; }
+  .nav-toggle:hover { background: var(--light-bg); }
+  .nav-toggle:focus { outline: 2px solid var(--secondary-color); outline-offset: 2px; }
+
+  nav { flex-wrap: wrap; align-items: center; }
+  .logo { order: 1; }
+  .nav-toggle { order: 2; margin-left: auto; }
+  nav .nav-menu { order: 3; width: 100%; }
+
+  /* Collapsible menu that pushes page content down (no overlay) */
+  nav .nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    padding: 0;
+    transition: max-height 0.28s ease, opacity 0.28s ease, padding 0.2s ease;
+  }
+
+  nav.open .nav-menu {
+    max-height: 480px; /* large enough to show all items */
+    opacity: 1;
+    padding: 0.75rem 0;
+  }
+
+  nav .nav-menu li { padding: 0.25rem 0; }
+
+  nav .nav-menu li a {
+    display: block;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    color: var(--primary-color);
+  }
+  nav .nav-menu li a:hover,
+  nav .nav-menu li a:focus { background: var(--light-bg); color: var(--accent-color); }
+
+  /* ensure header remains sticky and menu height expands the header */
+  header { position: sticky; top: 0; z-index: 1000; }
 }
 
 /* Hero Section */
@@ -143,25 +235,33 @@ nav a:hover {
 
 .carousel-container {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
 }
 
+/* make the track natively scrollable (touch + mouse) */
 .carousel-track {
   display: flex;
   gap: 2rem;
-  transition: transform 0.5s ease;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.5rem; /* allow space for small scrollbars */
 }
 
 .project-card {
-  min-width: calc(33.333% - 1.33rem);
+  /* make cards noticeably smaller and more consistent */
+  min-width: 260px;
+  max-width: 360px;
   background: var(--white);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: var(--shadow);
   transition: all 0.3s;
+  scroll-snap-align: start;
+  flex: 0 0 auto;
 }
 
 .project-card:hover {
@@ -171,25 +271,54 @@ nav a:hover {
 
 .project-card img {
   width: 100%;
-  height: 250px;
+  height: 180px; /* reduced height for a more compact card */
   object-fit: cover;
 }
 
 .project-card-content {
-  padding: 1.5rem;
+  padding: 1rem; /* reduced padding */
 }
 
 .project-card h3 {
-  font-size: 1.3rem;
-  margin-bottom: 0.5rem;
+  font-size: 1.15rem;
+  margin-bottom: 0.4rem;
   color: var(--primary-color);
 }
 
-.project-card p {
+/* clamp description to 4 lines */
+.project-excerpt {
   color: #666;
   font-size: 0.95rem;
   line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
+
+/* small CTA matching site style */
+.project-cta {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  background-color: var(--secondary-color);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.project-cta:hover {
+  background-color: #c49563;
+  box-shadow: var(--shadow-hover);
+}
+
+/* clickable project image */
+.project-image-link { display:block; }
+.project-image-link img { cursor: pointer; transition: transform 0.2s ease; display:block; }
+.project-image-link img:hover { transform: scale(1.02); }
 
 .carousel-controls {
   display: flex;
@@ -213,6 +342,16 @@ nav a:hover {
 .carousel-btn:hover {
   background: #234a6f;
 }
+
+/* hide default scrollbar on webkit but still allow scrolling */
+.carousel-track::-webkit-scrollbar { height: 8px; }
+.carousel-track::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 999px; }
+.carousel-track.dragging { cursor: grabbing; }
+
+@media (max-width: 768px) {
+  .project-card { min-width: 100%; }
+}
+
 
 /* Contact Form */
 .contact-section {
@@ -502,9 +641,14 @@ footer {
     gap: 1rem;
   }
   
+  /* mobile: show slightly narrower cards so users see there is more to scroll */
   .project-card {
-    min-width: 100%;
+    min-width: 85%;
+    max-width: 92%;
   }
+
+  .project-card img { height: 160px; }
+  .project-card-content { padding: 0.9rem; }
   
   .contact-wrapper {
     grid-template-columns: 1fr;

@@ -16,15 +16,21 @@
         <div class="carousel-container">
             <div class="carousel-track">
                 {{ range first 6 (where .Site.RegularPages "Section" "projects") }}
+                {{ $p := . }}
                 <div class="project-card">
-                    {{ with .Params.images }}
-                    <img src="{{ index . 0 }}" alt="{{ $.Title }}">
+                    {{ with $p.Params.images }}
+                    <a href="{{ $p.RelPermalink }}" class="project-image-link">
+                        <img src="{{ index . 0 }}" alt="{{ $p.Title }}">
+                    </a>
                     {{ else }}
-                    <img src="/images/placeholder.jpg" alt="{{ .Title }}">
+                    <a href="{{ $p.RelPermalink }}" class="project-image-link">
+                        <img src="/images/placeholder.jpg" alt="{{ $p.Title }}">
+                    </a>
                     {{ end }}
                     <div class="project-card-content">
-                        <h3>{{ .Title }}</h3>
-                        <p>{{ .Summary | truncate 120 }}</p>
+                        <h3>{{ $p.Title }}</h3>
+                        {{ $txt := $p.Summary | plainify | replaceRE "\\s+" " " }}
+                        <p class="project-excerpt">{{ $txt | truncate 260 }}…</p>
                     </div>
                 </div>
                 {{ end }}

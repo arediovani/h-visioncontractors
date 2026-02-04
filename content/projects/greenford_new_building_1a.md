@@ -1,5 +1,5 @@
 ---
-title: "Greenford new build 1a"
+title: "Greenford New Building" 
 date: 2024-01-20
 draft: false
 location: "GreenFord"

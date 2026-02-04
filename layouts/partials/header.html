@@ -1,10 +1,13 @@
 <header>
     <nav>
         <a href="{{ "/" | relURL }}" class="logo">H-<span>Vision</span></a>
-        <ul>
+        <button class="nav-toggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="hamburger" aria-hidden="true"></span>
+        </button>
+        <ul class="nav-menu">
             {{ range .Site.Menus.main }}
             <li><a href="{{ .URL }}">{{ .Name }}</a></li>
             {{ end }}
         </ul>
     </nav>
-</header>
+</header>"
