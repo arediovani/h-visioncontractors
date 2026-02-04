@@ -1,0 +1,37 @@
+name: Remote Deploy
+
+on:
+  push:
+    branches:
+      - main  # Set this to your default branch name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Execute Remote Commands via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # 1. Navigate to the project folder
+            cd ~/h-visioncontractors
+            
+            # 2. Pull the latest changes
+            git pull origin main
+            
+            # 3. Build the site with Hugo
+            # (Assumes Hugo is already installed on your VPS)
+            hugo --gc --minify
+            
+            # 4. Copy public folder to web server root
+            # Using cp -r to ensure all subdirectories move
+            sudo cp -r public/. /var/www/h-visioncontractors.co.uk/
+            
+            # Optional: Clean up the public folder after copy
+            rm -rf public/
